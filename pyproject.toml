@@ -1,0 +1,18 @@
+[project]
+name = "paij"
+version = "1.0.2"
+authors = [
+  { name="Mehmet Şahin", email="mehmetsahinn2002@gmail.com" },
+]
+description = "A Python library for generating Java methods from unit tests using OpenAI's GPT model."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/mehmetsahinnn/PythonExampleJavaTestCreator"
+Issues = "https://github.com/mehmetsahinnn/PythonExampleJavaTestCreator/issues"

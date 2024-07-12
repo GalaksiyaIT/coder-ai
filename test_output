@@ -1,0 +1,99 @@
+
+        To satisfy the given unit tests, we need to implement the methods `filterOrderByDate` and `filterOrderByUser` in the `ElasticOrderService` class. We will also assume the existence of an `OrderDocumentRepository` interface that provides methods to fetch orders based on date and username.
+
+Here is the implementation:
+
+
+import .time.LocalDateTime;
+import .util.*;
+import .util.stream.Collectors;
+
+public class ElasticOrderService {
+
+    private final OrderDocumentRepository orderDocumentRepository;
+
+    public ElasticOrderService(OrderDocumentRepository orderDocumentRepository) {
+        this.orderDocumentRepository = orderDocumentRepository;
+    }
+
+    public Map<Long, List<OrderDocument>> filterOrderByDate(LocalDateTime startDate, LocalDateTime endDate) {
+        List<OrderDocument> orders = orderDocumentRepository.findOrdersByDateBetween(startDate, endDate);
+        return orders.stream()
+                .collect(Collectors.groupingBy(OrderDocument::getUserId));
+    }
+
+    public Map<Long, List<OrderDocument>> filterOrderByUser(String username, LocalDateTime startDate, LocalDateTime endDate) {
+        List<OrderDocument> orders = orderDocumentRepository.findUserByUsername(username);
+        List<OrderDocument> filteredOrders = orders.stream()
+                .filter(order -> !order.getOrderDate().isBefore(startDate) && !order.getOrderDate().isAfter(endDate))
+                .collect(Collectors.toList());
+        return filteredOrders.stream()
+                .collect(Collectors.groupingBy(OrderDocument::getUserId));
+    }
+}
+
+
+Here is the assumed `OrderDocument` class and `OrderDocumentRepository` interface:
+
+
+import .time.LocalDateTime;
+
+public class OrderDocument {
+    private String id;
+    private String username;
+    private Long userId;
+    private OrderStatus orderStatus;
+    private LocalDateTime orderDate;
+    private LocalDateTime deliveryDate;
+
+    // Constructor, getters, and setters
+
+    public OrderDocument(String id, String username, Long userId, OrderStatus orderStatus, LocalDateTime orderDate, LocalDateTime deliveryDate) {
+        this.id = id;
+        this.username = username;
+        this.userId = userId;
+        this.orderStatus = orderStatus;
+        this.orderDate = orderDate;
+        this.deliveryDate = deliveryDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public LocalDateTime getDeliveryDate() {
+        return deliveryDate;
+    }
+}
+
+public interface OrderDocumentRepository {
+    List<OrderDocument> findOrdersByDateBetween(LocalDateTime startDate, LocalDateTime endDate);
+    List<OrderDocument> findUserByUsername(String username);
+}
+
+public enum OrderStatus {
+    CONFIRMED,
+    PENDING,
+    CANCELLED
+}
+
+
+This implementation ensures that the methods `filterOrderByDate` and `filterOrderByUser` return the correct results based on the provided unit tests. The `filterOrderByDate` method groups orders by user ID for orders within the specified date range. The `filterOrderByUser` method filters orders by the specified username and date range, and then groups them by user ID.
+    }
+    
