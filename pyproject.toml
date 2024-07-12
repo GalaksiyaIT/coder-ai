@@ -2,7 +2,7 @@
 name = "paij"
 version = "1.0.2"
 authors = [
-  { name="Mehmet Şahin", email="mehmetsahinn2002@gmail.com" },
+  { name="Galaksiya", email="info@galaksiya.com" },
 ]
 description = "A Python library for generating Java methods from unit tests using OpenAI's GPT model."
 readme = "README.md"
@@ -14,5 +14,5 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mehmetsahinnn/PythonExampleJavaTestCreator"
-Issues = "https://github.com/mehmetsahinnn/PythonExampleJavaTestCreator/issues"
+Homepage = "https://github.com/GalaksiyaIT/coder-ai"
+Issues = "https://github.com/GalaksiyaIT/coder-ai/issues"
