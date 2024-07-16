@@ -39,7 +39,7 @@ def generate_method_from_tests(api_key, unit_tests, language="Java"):
     return method_code
 
 
-class PAiJ:
+class CoderAI:
     def __init__(self, api_key):
         self.api_key = api_key
         openai.api_key = api_key
@@ -71,16 +71,21 @@ class PAiJ:
     @staticmethod
     def run_maven_commands(maven_home, project_dir, test_class_name, max_retries=3):
         maven_executable = os.path.join(maven_home, 'mvn')
+        print("maven executable", maven_executable)
         retries = 0
 
         while retries < max_retries:
+            subprocess.run(["mvn", "-version"])
             compile_process = subprocess.run(
                 [maven_executable, "clean", "compile", "test-compile"],
                 cwd=project_dir,
                 capture_output=True, text=True, shell=True
             )
+            print(compile_process.stdout)
+            print(compile_process.stderr)
 
             if compile_process.returncode != 0:
+                print(f"retries: {retries}, compile returncode: {compile_process.returncode}")
                 print(f"Compilation failed:\n{compile_process.stderr}")
                 return False
             else:
@@ -99,13 +104,13 @@ class PAiJ:
                     if retries < max_retries:
                         print("Regenerating method from tests and retrying...")
 
-                        unit_tests = PAiJ.read_from_file(config.INPUT_FILENAME)
-                        method_code = generate_method_from_tests(unit_tests, language="Java")
+                        unit_tests = CoderAI.read_from_file(config.INPUT_FILENAME)
+                        method_code = generate_method_from_tests(unit_tests=unit_tests, language="Java")
 
                         # Write regenerated method to file
                         base_dir = os.path.join(config.SRC_PATH, 'main', 'java', *config.WHOLE_PACKAGE_NAME.split('.'))
                         project_name = config.PACKAGE_NAME
-                        project_path = PAiJ.create_project_structure(base_dir, project_name)
+                        project_path = CoderAI.create_project_structure(base_dir, project_name)
 
                         method_code_lines = method_code.split('\n')
                         cleaned_method_code_lines = [line for line in method_code_lines if
@@ -118,7 +123,7 @@ class PAiJ:
                             {cleaned_method_code}
                             """
 
-                        PAiJ.write_to_file(
+                        CoderAI.write_to_file(
                             os.path.join(project_path, f"{config.CLASS_NAME}.java"),
                             class_code)
                 else:

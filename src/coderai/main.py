@@ -1,10 +1,9 @@
 import os
 
-from paij.functions import *
 from config import *
-from paij.functions import PAiJ
 
-from src.paij.feedback import *
+from src.coderai.feedback import *
+from src.coderai.functions import generate_method_from_tests, CoderAI
 
 
 def main():
@@ -14,10 +13,10 @@ def main():
     project_name = PACKAGE_NAME
     input_filename = INPUT_FILENAME
 
-    unit_tests = PAiJ.read_from_file(input_filename)
+    unit_tests = CoderAI.read_from_file(input_filename)
     method_code = generate_method_from_tests(OPENAI_API_KEY, unit_tests, language="Java")
 
-    project_path = PAiJ.create_project_structure(base_dir, project_name)
+    project_path = CoderAI.create_project_structure(base_dir, project_name)
 
     method_code_lines = method_code.split('\n')
     cleaned_method_code_lines = [line for line in method_code_lines if not line.startswith('package')]
@@ -30,7 +29,7 @@ def main():
         """
 
     class_file_path = os.path.join(project_path, f"{CLASS_NAME}.java")
-    PAiJ.write_to_file(class_file_path, class_code)
+    CoderAI.write_to_file(class_file_path, class_code)
     print(f"Generated project structure with class files in {project_path}")
 
     feedback = get_feedback_for_method(OPENAI_API_KEY, class_code)
@@ -41,14 +40,14 @@ def main():
     updated_method_code = apply_feedback(OPENAI_API_KEY, class_code, feedback)
     updated_method_code = updated_method_code.replace('```java', '').replace('```', '').rstrip()
 
-    PAiJ.write_to_file(class_file_path, updated_method_code)
+    CoderAI.write_to_file(class_file_path, updated_method_code)
     print(f"Updated method code written to {class_file_path}")
 
     max_retries = 3
     retry_count = 0
 
     while retry_count < max_retries:
-        if PAiJ.run_maven_commands(config.MAVEN_HOME, config.PROJECT_DIR, config.TEST_CLASS_NAME, max_retries):
+        if CoderAI.run_maven_commands(config.MAVEN_HOME, config.PROJECT_DIR, config.TEST_CLASS_NAME, max_retries):
             print("Maven build and tests were successful.")
             break
         else:
@@ -70,7 +69,7 @@ def main():
                    {cleaned_method_code}
                    """
 
-            PAiJ.write_to_file(class_file_path, class_code)
+            CoderAI.write_to_file(class_file_path, class_code)
             print(f"Generated new method code written to {class_file_path}")
 
 

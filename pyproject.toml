@@ -1,8 +1,8 @@
 [project]
-name = "paij"
-version = "1.0.2"
+name = "coder-ai"
+version = "1.0.0"
 authors = [
-  { name="Galaksiya", email="info@galaksiya.com" },
+    { name = "Galaksiya", email = "info@galaksiya.com" }
 ]
 description = "A Python library for generating Java methods from unit tests using OpenAI's GPT model."
 readme = "README.md"

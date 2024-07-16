@@ -1,6 +1,6 @@
 # CoderAI
 
-PAiJ is a Python library designed to generate Java methods from unit tests using OpenAI's GPT model. This tool is
+CoderAI is a Python library designed to generate Java methods from unit tests using OpenAI's GPT model. This tool is
 currently designed specifically for Java and is still in the development process. Future versions may include support
 for other languages.
 
@@ -14,14 +14,14 @@ for other languages.
 ## Installation
 
 ```bash
-pip install paij
+pip install coder-ai
 ```
 
 ## Usage
 
 ### Example
 
-Here's a basic example of how to use PAiJ:
+Here's a basic example of how to use CoderAI:
 
 1. Ensure you have your unit tests written in a file, for example, example_code.
 2. Create a configuration file config.py with the necessary paths and API keys.
@@ -48,8 +48,8 @@ TEST_CLASS_NAME = 'YOUR_TEST_CLASS_NAME'
 ```
 import os
 import config
-from paij.functions import *
-from paij.functions import PAiJ
+from coderai.functions import *
+from coderai.functions import CoderAI
 
 def main():
     base_dir = os.path.join(config.SRC_PATH, 'main', 'java', *config.PACKAGE_NAME.split('.'))
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 - Running Maven Commands: Compiles and tests the generated code using Maven.
 
 ## Development
-- PAiJ is currently in the development phase. Contributions and feedback are welcome.
+- CoderAI is currently in the development phase. Contributions and feedback are welcome.
 
 ### Future Plans
 - Add support for generating code in other programming languages.
