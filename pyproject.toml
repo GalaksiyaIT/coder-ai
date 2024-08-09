@@ -1,6 +1,6 @@
 [project]
 name = "coder-ai"
-version = "1.0.2"
+version = "1.0.4"
 authors = [
     { name = "Galaksiya", email = "info@galaksiya.com" }
 ]
@@ -9,7 +9,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
 

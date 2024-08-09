@@ -118,7 +118,7 @@ if __name__ == "__main__":
 - Enhance the configuration options for more flexibility.
 
 ## License
-This project is licensed under the [GNU General Public License v3 (GPLv3)](LICENSE) - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
 
 ## Contributing
 1. Fork the repository
